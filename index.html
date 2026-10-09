@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kopi Senja | Sistem Penjualan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">☕ <span><b>Kopi Senja</b><small>Point of Sale</small></span></div>
+    <p class="label">MENU UTAMA</p>
+    <button class="nav active" data-page="dashboard">▦ Dashboard</button>
+    <button class="nav" data-page="menu">☕ Data Menu</button>
+    <button class="nav" data-page="promos">％ Promo</button>
+    <button class="nav" data-page="sales">＋ Penjualan</button>
+    <button class="nav" data-page="history">◷ Riwayat Penjualan</button>
+    <button class="nav" data-page="reports">▥ Laporan</button>
+    <div class="sidefoot">● Sistem penjualan kedai</div>
+  </aside>
+  <main>
+    <header>
+      <div><small class="eyebrow">KEDAI KOPI • SISTEM PENJUALAN</small><h1 id="pageTitle">Dashboard</h1></div>
+      <span id="today"></span>
+    </header>
+    <section id="dashboardPage" class="page active">
+      <div class="hero"><div><small>SELAMAT DATANG DI KOPI SENJA</small><h2>Temani harimu,<br><i>satu cangkir setiap waktu.</i></h2><p>Kelola menu dan transaksi kedai dari satu tempat.</p></div><div class="hero-cup">☕</div></div>
+      <div class="stats">
+        <article><small>Menu Aktif</small><strong id="statProducts">—</strong><span>Menu tersedia</span></article>
+        <article><small>Transaksi Hari Ini</small><strong id="statSales">—</strong><span>Transaksi tersimpan</span></article>
+        <article><small>Omzet Hari Ini</small><strong id="statRevenue">—</strong><span>Total penjualan setelah diskon</span></article>
+      </div>
+      <div class="panel"><div class="panelhead"><div><h3>Transaksi Terbaru</h3><p>Aktivitas penjualan terakhir</p></div><button class="link" data-goto="history">Lihat semua →</button></div><div id="recent"></div></div>
+    </section>
+    <section id="menuPage" class="page">
+      <div class="sectionhead"><div><h2>Data Menu</h2><p>Kelola menu, kategori, harga, dan ketersediaan.</p></div><button class="primary" id="addMenu">＋ Tambah Menu</button></div>
+      <div class="panel"><input id="menuSearch" placeholder="Cari menu atau kategori..."><div id="menuTable"></div></div>
+    </section>
+    <section id="promosPage" class="page">
+      <div class="sectionhead"><div><h2>Promo</h2><p>Atur potongan persentase atau nominal dan periode berlakunya.</p></div><button class="primary" id="addPromo">＋ Tambah Promo</button></div>
+      <div class="panel"><input id="promoSearch" placeholder="Cari nama promo..."><div id="promosTable"></div></div>
+    </section>
+    <section id="salesPage" class="page">
+      <div class="sectionhead"><div><h2>Transaksi Penjualan</h2><p>Pilih menu, promo opsional, dan metode pembayaran.</p></div></div>
+      <div class="salesgrid">
+        <div class="panel">
+          <h3>Detail Pesanan</h3>
+          <div class="formgrid">
+            <label>Metode pembayaran<select id="saleMethod"><option>Tunai</option><option>QRIS</option><option>Debit</option><option>Transfer</option></select></label>
+            <label>Promo (opsional)<select id="salePromo"><option value="">Tanpa promo</option></select></label>
+          </div>
+          <div class="addline"><label>Menu<select id="saleMenu"></select></label><label>Jumlah<input id="saleQty" type="number" min="1" value="1"></label><button class="primary" id="addCart">Tambah</button></div>
+          <div id="cartTable"></div>
+        </div>
+        <div class="panel summary">
+          <h3>Ringkasan Pembayaran</h3><div id="cartSummary">Belum ada menu.</div>
+          <div class="summary-line"><span>Total sebelum diskon</span><b id="cartSubtotal">Rp0</b></div>
+          <div class="summary-line"><span id="cartDiscountLabel">Diskon</span><b id="cartDiscount">Rp0</b></div>
+          <div class="total"><span>Total akhir</span><b id="cartTotal">Rp0</b></div>
+          <button class="primary full" id="saveSale">Simpan Transaksi</button><button class="secondary full" id="clearCart">Kosongkan</button>
+        </div>
+      </div>
+    </section>
+    <section id="historyPage" class="page">
+      <div class="sectionhead"><div><h2>Riwayat Penjualan</h2><p>Daftar transaksi yang telah disimpan.</p></div><button class="secondary" id="refresh">↻ Muat ulang</button></div>
+      <div class="panel"><div class="formgrid"><label>Cari nomor transaksi<input id="historySearch" placeholder="Cari nomor..."></label><label>Filter tanggal<input id="historyDate" type="date"></label></div><div id="historyTable"></div></div>
+    </section>
+    <section id="reportsPage" class="page">
+      <div class="sectionhead"><div><h2>Laporan Penjualan</h2><p>Laporan dihitung dari data penjualan dan detail penjualan.</p></div><div class="report-toolbar"><button class="secondary" id="reportPrint">Cetak Laporan</button><button class="secondary" id="reportCsv">Unduh CSV</button></div></div>
+      <div class="panel report-filters"><label>Dari tanggal<input id="reportFrom" type="date"></label><label>Sampai tanggal<input id="reportTo" type="date"></label><button class="primary" id="loadReport">Tampilkan Laporan</button></div>
+      <div id="reportStatus" class="report-status" role="status"></div>
+      <div class="stats report-stats"><article><small>Total Omzet</small><strong id="reportRevenue">Rp0</strong><span>Nilai penjualan setelah diskon</span></article><article><small>Jumlah Transaksi</small><strong id="reportTransactions">0</strong><span>Penjualan tersimpan</span></article><article><small>Jumlah Item Terjual</small><strong id="reportItems">0</strong><span>Total kuantitas detail penjualan</span></article></div>
+      <div class="panel"><h3>Ringkasan Metode Pembayaran</h3><div id="reportPayments"></div></div>
+      <div class="panel"><h3>Ringkasan Harian</h3><div id="reportDaily"></div></div>
+      <div class="panel"><h3>Produk Terlaris</h3><div id="bestSellersTable"></div></div>
+      <div class="panel"><h3>Rincian Penjualan</h3><div id="reportTable"></div></div>
+    </section>
+  </main>
+  <div id="modal" class="overlay hidden">
+    <form id="modalForm" class="modal">
+      <button type="button" id="close" class="close">×</button><h2 id="modalTitle">Form</h2><p id="modalDesc">Lengkapi data.</p><div id="fields"></div>
+      <div class="actions"><button type="button" class="secondary" id="cancel">Batal</button><button class="primary">Simpan</button></div>
+    </form>
+  </div>
+  <div id="toast" class="toast"></div>
+  <div id="receiptOverlay" class="overlay receipt-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="receiptDialogTitle">
+    <section class="receipt-dialog">
+      <div class="receipt-toolbar"><div><h2 id="receiptDialogTitle">Pratinjau Struk</h2><p>Transaksi tersimpan di sistem.</p></div>
+        <div class="receipt-actions"><button type="button" class="secondary" id="receiptPrint">Cetak Struk</button><button type="button" class="secondary" id="receiptPdf">Unduh PDF</button><button type="button" class="secondary" id="receiptNew">Transaksi Baru</button><button type="button" class="primary" id="receiptClose">Tutup</button></div>
+      </div>
+      <div id="receiptPaper" class="receipt-paper"></div>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
